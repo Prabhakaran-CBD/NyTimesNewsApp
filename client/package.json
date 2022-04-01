@@ -1,0 +1,34 @@
+{
+  "name": "fintech",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@tailwindcss/forms": "^0.5.0",
+    "axios": "^0.26.1",
+    "bn": "^1.0.5",
+    "bn-chai": "^1.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "require": "^2.4.20",
+    "styled-components": "^5.3.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^1.0.7",
+    "autoprefixer": "^10.4.4",
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.0",
+    "mocha": "^9.2.2",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23",
+    "vite": "^2.9.0"
+  }
+}

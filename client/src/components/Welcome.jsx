@@ -18,8 +18,9 @@ const Welcome = () => {
     setArticleData(response.data.results);
     if (response.data.results.length > 0) {
       try {
-        let content = response.data.results.map((object) => (
+        let content = response.data.results.map((object, index) => (
           <Accordion
+            key={index}
             style={{
               background: "transparent",
               marginRight: "1px",

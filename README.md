@@ -8,7 +8,8 @@ Application look like below
 
  
 # Run and Test:
-* To run this application just clone the repo into your local system and make sure to install the required dependencies based on the package.json file and then get into the client folder and do run command ‘npm run dev’ to view the application. 
+* This application is hosted in netlify, so by clicking the following link it will take to the application https://ny-times-article-app.netlify.app/
+* To run this application in locally, just clone the repo into your local system and make sure to install the required dependencies based on the package.json file and then get into the client folder and do run command ‘npm run dev’ to view the application. 
 * Also make sure npm package is installed already , if not need to install the node package from https://nodejs.org/en/download/ .
 * Once the application is loaded into your localhost:3000 just enter the period of articles that you interested to view, based on the given period the applciation will fetch the respective articles for the day.
 * To see the detail of each articles just tap/click on the each listed article item. Also along with this listed articles showing the available image related to that news article.

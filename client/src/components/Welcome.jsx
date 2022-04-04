@@ -15,12 +15,14 @@ const Welcome = () => {
   const [articleData, setArticleData] = useState([]);
   const [arrticleContent, setArticleContent] = useState([]);
   const [daysOfArticle, setDaysOfArticle] = useState(0);
+  const [isLoadingFlag, setIsloadingFlag] = useState(false);
   //Below function is used to call the nyTimes API to get the article data
   const getArticles = async () => {
-    console.log("DaysOfArticle", daysOfArticle);
     if (daysOfArticle != 1 && daysOfArticle != 7 && daysOfArticle != 30) {
       return alert("Please enter period from 1,7 or 30..");
     }
+    setIsloadingFlag(true);
+    //call the below API to get the news article from NYTimes based on the give period of time
     const response = await axios.get(
       `https://api.nytimes.com/svc/mostpopular/v2/viewed/${daysOfArticle}.json?api-key=MXtNcz88gf8ovwB4vtUEZTJFvNcdTsBm`
     );
@@ -115,6 +117,7 @@ const Welcome = () => {
         console.log("No Article found", err.message);
       }
     }
+    setIsloadingFlag(false);
   };
   //below function is used to refresh and reload the page
   const getRefresh = () => {
@@ -136,11 +139,12 @@ const Welcome = () => {
             Provides services for getting the most popular articles on
             NYTimes.com based on emails, shares, or views..
           </p>
+
           <div className="flex flex-1 flex-col mf:flex-row items-center justify-between md:p-10 max-w-md mx-auto ">
             <div>
               <div className="p-5 md:w-96 flex flex-col justify-end items-center blue-glassmorphism ">
                 <TextField
-                  label="search for period (1 ,7 30).."
+                  label="search for period (1 ,7 or 30).."
                   variant="filled"
                   color="primary"
                   style={{ width: "auto", backgroundColor: "darkgrey" }}
@@ -153,6 +157,7 @@ const Welcome = () => {
                   }}
                   onChange={getDays}
                 />
+
                 {articleData.length > 0 ? (
                   <>
                     <button
@@ -167,9 +172,9 @@ const Welcome = () => {
                   ""
                 )}
               </div>
+              {isLoadingFlag == false ? "" : <Loader />}
             </div>
           </div>
-
           {articleData.length > 0 ? (
             <div className="flex flex-1 flex-col mf:flex-row items-center justify-between md:p-1 max-w-md mx-auto">
               <div

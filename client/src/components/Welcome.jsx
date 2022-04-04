@@ -5,21 +5,31 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import SearchIcon from "@material-ui/icons/Search";
+import TextField from "@mui/material/TextField";
 
 //main component
 const Welcome = () => {
   const [articleData, setArticleData] = useState([]);
   const [arrticleContent, setArticleContent] = useState([]);
+  const [daysOfArticle, setDaysOfArticle] = useState(0);
   //Below function is used to call the nyTimes API to get the article data
   const getArticles = async () => {
+    console.log("DaysOfArticle", daysOfArticle);
+    if (daysOfArticle != 1 && daysOfArticle != 7 && daysOfArticle != 30) {
+      return alert("Please enter period from 1,7 or 30..");
+    }
     const response = await axios.get(
-      "https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key=MXtNcz88gf8ovwB4vtUEZTJFvNcdTsBm"
+      `https://api.nytimes.com/svc/mostpopular/v2/viewed/${daysOfArticle}.json?api-key=MXtNcz88gf8ovwB4vtUEZTJFvNcdTsBm`
     );
     setArticleData(response.data.results);
     if (response.data.results.length > 0) {
       try {
-        let content = response.data.results.map((object) => (
+        let content = response.data.results.map((object, index) => (
           <Accordion
+            key={index}
             style={{
               background: "transparent",
               marginRight: "1px",
@@ -110,6 +120,11 @@ const Welcome = () => {
   const getRefresh = () => {
     window.location.reload();
   };
+  //below function is used to receive the number of period and store in the state to fetch articles
+  const getDays = (e) => {
+    e.preventDefault();
+    setDaysOfArticle(e.target.value);
+  };
   return (
     <div className="flex w-full justify-left items-center ">
       <div className="flex-auto mf:flex-row flex-col items-start  md:p-5">
@@ -121,51 +136,48 @@ const Welcome = () => {
             Provides services for getting the most popular articles on
             NYTimes.com based on emails, shares, or views..
           </p>
-          <button
-            type="button"
-            onClick={getArticles}
-            className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-xl  cursor-pointer hover:bg-[#2546bd]"
-          >
-            <p className="text-white text-base font-semibold">Load</p>
-          </button>
-
-          {articleData.length > 0 ? (
-            <div
-              style={{
-                // marginLeft:'25px',
-                width: "30%",
-                paddingTop: "auto",
-
-                border: "1px solid rgb(115, 115, 115)",
-                height: "auto",
-                borderRadius: "20px",
-                display: "inline-block",
-                margin: "1rem 0",
-                color: "white",
-                marginLeft: "32%",
-                textAlign: "center",
-              }}
-            >
-              Ny Times Most Popular Articles
-              <button
-                type="button"
-                onClick={getRefresh}
-                className=" mx-5 my-1 justify-center items-center my-5 bg-[#2952e3] p-1 rounded-full  cursor-pointer hover:bg-[#2546bd]"
-              >
-                Refresh
-              </button>
+          <div className="flex flex-1 flex-col mf:flex-row items-center justify-between md:p-10 max-w-md mx-auto ">
+            <div>
+              <div className="p-5 md:w-96 flex flex-col justify-end items-center blue-glassmorphism ">
+                <TextField
+                  label="search for period (1 ,7 30).."
+                  variant="filled"
+                  color="primary"
+                  style={{ width: "auto", backgroundColor: "darkgrey" }}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton onClick={getArticles}>
+                        <SearchIcon />
+                      </IconButton>
+                    ),
+                  }}
+                  onChange={getDays}
+                />
+                {articleData.length > 0 ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={getRefresh}
+                      className=" mx-5 my-1 justify-center items-center  bg-[darkgray] p-1 rounded-xl  cursor-pointer hover:bg-[#2546bd]"
+                    >
+                      Refresh
+                    </button>
+                  </>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-          ) : (
-            ""
-          )}
+          </div>
+
           {articleData.length > 0 ? (
-            <div style={{ marginLeft: "20%" }}>
+            <div className="flex flex-1 flex-col mf:flex-row items-center justify-between md:p-1 max-w-md mx-auto">
               <div
                 style={{
-                  // marginLeft:'25px',
-                  width: "50%",
-                  marginLeft: "10%",
-                  minWidth: "10px",
+                  //marginLeft: "25px",
+                  width: "auto",
+                  //marginLeft: "auto",
+                  //minWidth: "10px",
                   border: "2px solid rgb(115, 115, 115)",
                   height: "auto",
                   borderRadius: "20px",
